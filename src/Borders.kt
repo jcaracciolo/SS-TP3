@@ -1,0 +1,1 @@
+class Borders(val worldWidth: Double, val worldHeight: Double)
