@@ -1,3 +1,3 @@
-class Event(val tc: Double, val results: Array<Result>)
+class Event(val tc: Double, val results: Array<CollisionResult>)
 
-class Result(val particle: Particle, val newVelocity: Vector, val collisionNumber: Int)
+class CollisionResult(val particle: Particle, val newVelocity: Vector, val collisionNumber: Int)
