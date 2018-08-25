@@ -17,7 +17,7 @@ object EventCalculator {
                                            time: Double) {
         changedParticles.forEach({ changedParticle ->
             allParticles.forEach({ otherParticle ->
-                if(changedParticle != otherParticle){ // TODO check if kotlin != is valid in this case
+                if(changedParticle != otherParticle){
                     val newEvent = Collider.collide(changedParticle, otherParticle, time)
                     newEvent?.let{events.add(newEvent)}
                 }

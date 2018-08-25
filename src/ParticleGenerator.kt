@@ -9,9 +9,9 @@ class ParticleGenerator(
         val smallParticleRadius: Double,
         val smallParticleMass: Double,
         val maxVelocity: Double,
-        seed: Long = 0){
+        seed: Long = 0,
+        val EPSILON: Double){
 
-    val EPSILON = 0.0000001
 
     var idCount: Int = 0 // TODO check if random generation is not creating too many particles
 
@@ -19,7 +19,8 @@ class ParticleGenerator(
 
     private fun generateSmallParticle(): Particle{
         return Particle(idCount++,
-                Vector(rand.nextDouble()*worldWidth,rand.nextDouble()*worldHeight),
+                Vector( rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
+                        rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
                 Vector(rand.nextDouble()*maxVelocity, rand.nextDouble()*maxVelocity),
                 smallParticleMass,
                 smallParticleRadius)

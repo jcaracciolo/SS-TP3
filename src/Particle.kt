@@ -4,8 +4,7 @@ data class Particle(val id: Int, var position: Vector, var velocity: Vector, val
     var collisionCount: Int = 0
 
     fun calculateNewPosition(deltaTime: Double) {
-        val deltaDistance =  velocity.scaledBy(deltaTime)
-        velocity += deltaDistance
+        position += velocity.scaledBy(deltaTime)
     }
 
     fun collisionResult(newVelocity: Vector) {

@@ -1,3 +1,5 @@
+import kotlin.math.sqrt
+
 data class Vector(val x: Double, val y: Double) {
     companion object {
         fun dot(v1 : Vector, v2: Vector) : Double {
@@ -5,7 +7,7 @@ data class Vector(val x: Double, val y: Double) {
         }
 
         fun norm(v: Vector) : Double {
-            return dot(v, v)
+            return sqrt(dot(v, v))
         }
 
         fun delta(v1: Vector, v2: Vector) : Vector {
