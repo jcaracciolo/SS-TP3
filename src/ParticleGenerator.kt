@@ -11,7 +11,7 @@ class ParticleGenerator(
         val maxVelocity: Double,
         seed: Long = 0){
 
-    val EPSILON = 0.00001
+    val EPSILON = 0.0000001
 
     var idCount: Int = 0 // TODO check if random generation is not creating too many particles
 

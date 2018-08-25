@@ -21,6 +21,10 @@ data class Vector(val x: Double, val y: Double) {
         return Vector(x - v.x, y - v.y)
     }
 
+    operator fun plus(v: Vector) : Vector {
+        return Vector(v.x + x, v.y + y)
+    }
+
     fun scaledBy(d: Double): Vector {
         return Vector(d * x, d*y)
     }
