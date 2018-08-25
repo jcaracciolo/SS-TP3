@@ -10,36 +10,36 @@ class ParticleGenerator(
         val smallParticleMass: Double,
         val maxVelocity: Double,
         seed: Long = 0,
-        val EPSILON: Double){
+        val EPSILON: Double) {
 
 
     var idCount: Int = 0 // TODO check if random generation is not creating too many particles
 
     val rand = Random(seed)
 
-    private fun generateSmallParticle(): Particle{
+    private fun generateSmallParticle(): Particle {
         return Particle(idCount++,
-                Vector( rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
+                Vector(rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
                         rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
-                Vector(rand.nextDouble()*maxVelocity, rand.nextDouble()*maxVelocity),
+                Vector(rand.nextDouble() * maxVelocity, rand.nextDouble() * maxVelocity),
                 smallParticleMass,
                 smallParticleRadius)
     }
 
-    private fun generateBigParticle(): Particle{
+    private fun generateBigParticle(): Particle {
         return Particle(idCount++,
-                Vector(worldWidth/2, worldHeight/2),
+                Vector(worldWidth / 2, worldHeight / 2),
                 Vector(0.0, 0.0),
                 bigParticleMass,
                 bigParticleRadius)
     }
 
-    fun generateParticles(smallParticlesNum: Int): ArrayList<Particle>{
+    fun generateParticles(smallParticlesNum: Int): ArrayList<Particle> {
         val particles = ArrayList<Particle>()
         particles.add(generateBigParticle())
-        while(particles.size < smallParticlesNum + 1){
+        while (particles.size < smallParticlesNum + 1) {
             val particle = generateSmallParticle()
-            if(particles.find { overlaps(particle, it) } == null){
+            if (particles.find { overlaps(particle, it) } == null) {
                 particles.add(particle)
             }
         }

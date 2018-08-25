@@ -13,7 +13,7 @@ class ColliderTest {
         Assertions.assertEquals(3.0, collision?.tc)
         Assertions.assertEquals(2, collision?.results!!.size)
         for (result in collision?.results) {
-            if(result.particle.id == 1) {
+            if (result.particle.id == 1) {
                 Assertions.assertEquals(-2.0, result.newVelocity.x)
                 Assertions.assertEquals(0.0, result.newVelocity.y)
             } else {

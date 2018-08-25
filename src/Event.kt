@@ -1,4 +1,4 @@
-class Event(val tc: Double, val results: Array<CollisionResult>) : Comparable<Event>{
+class Event(val tc: Double, val results: Array<CollisionResult>) : Comparable<Event> {
     override fun compareTo(other: Event): Int {
         return tc.compareTo(other.tc)
     }

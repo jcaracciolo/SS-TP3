@@ -15,14 +15,14 @@ object EventCalculator {
                                            changedParticles: ArrayList<Particle>,
                                            allParticles: ArrayList<Particle>,
                                            time: Double) {
-        changedParticles.forEach({ changedParticle ->
-            allParticles.forEach({ otherParticle ->
+        changedParticles.forEach { changedParticle ->
+            allParticles.forEach { otherParticle ->
                 if(changedParticle != otherParticle){
                     val newEvent = Collider.collide(changedParticle, otherParticle, time)
                     newEvent?.let{events.add(newEvent)}
                 }
-            })
-        })
+            }
+        }
     }
 
     private fun calculateNewBorderEvents(events: ArrayList<Event>,

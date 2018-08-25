@@ -40,25 +40,25 @@ class Main {
             pq.addAll(newEvents)
 
             // Main loop
-            for (i in 1..maxIterations){
-                if (i%10==0) println("Iteration N°"+i)
+            for (i in 1..maxIterations) {
+                if (i % 10 == 0) println("Iteration N°" + i)
 
                 //  Pop event
-                if(pq.isEmpty()) break
+                if (pq.isEmpty()) break
                 val currentEvent = pq.poll()
                 // Check that collision time is always bigger if not skip event
-                if (currentEvent.results.find { it.collisionNumber != it.particle.collisionCount + 1 } == null){
+                if (currentEvent.results.find { it.collisionNumber != it.particle.collisionCount + 1 } == null) {
 
                     // STEP 3: For all particle recalculate position
-                    if(time > currentEvent.tc) { // TODO maybe add an epsilon here?
+                    if (time > currentEvent.tc) { // TODO maybe add an epsilon here?
                         throw IllegalStateException("New time can't be smaller than before")
                     }
                     val oldTime = time
                     time = currentEvent.tc
                     val deltaTime = time - oldTime
-                    particles.forEach{
+                    particles.forEach {
                         it.calculateNewPosition(deltaTime)
-                        if(it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON){
+                        if (it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON) {
                             throw IllegalStateException("Particles can't be outside of bounds")
                         }
                     }

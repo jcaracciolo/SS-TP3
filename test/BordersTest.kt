@@ -11,10 +11,10 @@ class BordersTest {
         val collision = borders.nextCollision(particle, 0.0)
 
         Assertions.assertNotNull(collision)
-        Assertions.assertEquals(6.0/2.0, collision?.tc)
+        Assertions.assertEquals(6.0 / 2.0, collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(-2.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(0.0, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(-2.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(0.0, collision.results[0].newVelocity.y)
     }
 
     @Test
@@ -23,10 +23,10 @@ class BordersTest {
         val collision = borders.nextCollision(particle, 0.0)
 
         Assertions.assertNotNull(collision)
-        Assertions.assertEquals(6.0/2.0, collision?.tc)
+        Assertions.assertEquals(6.0 / 2.0, collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(2.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(0.0, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(2.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(0.0, collision.results[0].newVelocity.y)
     }
 
 
@@ -36,10 +36,10 @@ class BordersTest {
         val collision = borders.nextCollision(particle, 0.0)
 
         Assertions.assertNotNull(collision)
-        Assertions.assertEquals(8.0/4.0, collision?.tc)
+        Assertions.assertEquals(8.0 / 4.0, collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(0.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(-4.0, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(0.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(-4.0, collision.results[0].newVelocity.y)
     }
 
 
@@ -51,8 +51,8 @@ class BordersTest {
         Assertions.assertNotNull(collision)
         Assertions.assertEquals(8.0 / 6.0, collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(0.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(6.0, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(0.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(6.0, collision.results[0].newVelocity.y)
     }
 
 
@@ -64,8 +64,8 @@ class BordersTest {
         Assertions.assertNotNull(collision)
         Assertions.assertEquals(8.0 / 8.0, collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(2.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(8.0, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(2.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(8.0, collision.results[0].newVelocity.y)
     }
 
     @Test
@@ -76,9 +76,10 @@ class BordersTest {
         Assertions.assertNotNull(collision)
         Assertions.assertEquals(5.5 + (4.0 / 5.0), collision?.tc)
         Assertions.assertEquals(1, collision?.results!!.size)
-        Assertions.assertEquals(-5.0, collision?.results!![0].newVelocity.x)
-        Assertions.assertEquals(0.5, collision?.results!![0].newVelocity.y)
+        Assertions.assertEquals(-5.0, collision.results[0].newVelocity.x)
+        Assertions.assertEquals(0.5, collision.results[0].newVelocity.y)
     }
+
     @Test
     fun stillCollision() {
         val particle = Particle(1, Vector(5.0, 10.0), Vector(0.0, 0.0), 1.0, 2.0)
@@ -86,5 +87,4 @@ class BordersTest {
 
         Assertions.assertNull(collision)
     }
-
 }
