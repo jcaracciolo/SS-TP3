@@ -19,18 +19,16 @@ class ParticleGenerator(
 
     private fun generateSmallParticle(): Particle{
         return Particle(idCount++,
-                rand.nextDouble()*worldWidth,
-                rand.nextDouble()*worldHeight,
-                Velocity(rand.nextDouble()*maxVelocity, rand.nextDouble()*maxVelocity),
+                Vector(rand.nextDouble()*worldWidth,rand.nextDouble()*worldHeight),
+                Vector(rand.nextDouble()*maxVelocity, rand.nextDouble()*maxVelocity),
                 smallParticleMass,
                 smallParticleRadius)
     }
 
     private fun generateBigParticle(): Particle{
         return Particle(idCount++,
-                worldWidth/2,
-                worldHeight/2,
-                Velocity(0.0, 0.0),
+                Vector(worldWidth/2, worldHeight/2),
+                Vector(0.0, 0.0),
                 bigParticleMass,
                 bigParticleRadius)
     }
@@ -48,9 +46,8 @@ class ParticleGenerator(
     }
 
     private fun overlaps(particle1: Particle, particle2: Particle): Boolean {
-        val diffX = particle1.x - particle2.x
-        val diffY = particle1.y - particle2.y
-        return Math.sqrt(diffX * diffX + diffY * diffY) - particle1.radius - particle2.radius <= EPSILON
+        val deltaR = Vector.delta(particle1.position, particle2.position)
+        return Vector.norm(deltaR) - (particle1.radius + particle2.radius) <= EPSILON
     }
 
 
