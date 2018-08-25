@@ -69,6 +69,17 @@ class BordersTest {
     }
 
     @Test
+    fun diagonalCollisionTestWithTime() {
+        val particle = Particle(1, Vector(5.0, 10.0), Vector(5.0, 0.5), 1.0, 1.0)
+        val collision = borders.nextCollision(particle, 5.5)
+
+        Assertions.assertNotNull(collision)
+        Assertions.assertEquals(5.5 + (4.0 / 5.0), collision?.tc)
+        Assertions.assertEquals(1, collision?.results!!.size)
+        Assertions.assertEquals(-5.0, collision?.results!![0].newVelocity.x)
+        Assertions.assertEquals(0.5, collision?.results!![0].newVelocity.y)
+    }
+    @Test
     fun stillCollision() {
         val particle = Particle(1, Vector(5.0, 10.0), Vector(0.0, 0.0), 1.0, 2.0)
         val collision = borders.nextCollision(particle, 0.0)
