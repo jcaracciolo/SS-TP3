@@ -22,10 +22,10 @@ object Collider {
         collisionTime ?: return null // No collision
 
         // 2. Calculate new velocities
-        val jConservation = deltaR.scaledBy((2 * first.mass * second.mass * dVdR) / (sigmaSquared * (first.mass + second.mass)))
+        val impulse = deltaR.scaledBy((2 * first.mass * second.mass * dVdR) / (sigmaSquared * (first.mass + second.mass)))
 
-        val firstNewVelocity = newVelocity(first, jConservation)
-        val secondNewVelocity = newVelocity(first, jConservation.scaledBy(-1.0))
+        val firstNewVelocity = newVelocity(first, impulse)
+        val secondNewVelocity = newVelocity(first, impulse.scaledBy(-1.0))
 
 
         // 3. Create collision results
@@ -36,10 +36,10 @@ object Collider {
         return Event(time + collisionTime, arrayOf(firstCollisionResult, secondCollisionResult))
     }
 
-    private fun newVelocity(particle: Particle, j: Vector): Vector {
+    private fun newVelocity(particle: Particle, impulse: Vector): Vector {
         val v = particle.velocity
         val m = particle.mass
-        return Vector(v.x + j.x / m, v.y + j.y / m)
+        return Vector(v.x + impulse.x / m, v.y + impulse.y / m)
     }
 
 
