@@ -12,7 +12,7 @@ class Main {
             val worldHeight = 0.5
             var time = 0.0 // TODO should time start in 0 or something else?
             val pq = PriorityQueue<Event>()
-            val maxIterations = 1000
+            val maxIterations = 100000
             val EPSILON = 0.000001
 
             val borders = Borders(worldWidth, worldHeight)
@@ -25,9 +25,10 @@ class Main {
                     smallParticleMass = 0.1,
                     maxVelocity = 0.1,
                     EPSILON = EPSILON)
-            val particles = pg.generateParticles(20)
-            print(particles) // TODO delete this print
+            val particles = pg.generateParticles(200)
+//            print(particles) // TODO delete this print
 
+            val printer = ParticlePrinter(borders)
 
             // STEP 2: For all particles,
             // Calculate boards collision events
@@ -53,9 +54,11 @@ class Main {
                     if (time > currentEvent.tc) { // TODO maybe add an epsilon here?
                         throw IllegalStateException("New time can't be smaller than before")
                     }
-                    val oldTime = time
+
+                    val oldTime = printer.printIfNecessary(particles, currentEvent.tc)
                     time = currentEvent.tc
                     val deltaTime = time - oldTime
+
                     particles.forEach {
                         it.calculateNewPosition(deltaTime)
                         if (it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON) {
@@ -78,7 +81,7 @@ class Main {
                     pq.addAll(newEvents)
 
                     // TODO save current state for drawing latter
-                    print(particles)
+//                    print(particles)
                 }
             }
         }
