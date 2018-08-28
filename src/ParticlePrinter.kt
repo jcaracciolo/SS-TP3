@@ -65,8 +65,5 @@ class ParticlePrinter(val borders: Borders) {
             e.printStackTrace()
             //TODO do something with error
         }
-        particles.forEach {
-
-        }
     }
 }

@@ -10,24 +10,21 @@ class Main {
 
             val worldWidth = 0.5
             val worldHeight = 0.5
-            var time = 0.0 // TODO should time start in 0 or something else?
+            var time = 0.0
             val pq = PriorityQueue<Event>()
             val maxTime = 50
             val EPSILON = 0.000001
-
             val borders = Borders(worldWidth, worldHeight)
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
                     worldHeight = worldHeight,
-                    bigParticleRadius = 0.05, // TODO change to actual value
+                    bigParticleRadius = 0.05,
                     bigParticleMass = 100.0,
                     smallParticleRadius = 0.005,
                     smallParticleMass = 0.1,
                     maxVelocity = 0.1,
                     EPSILON = EPSILON)
             val particles = pg.generateParticles(200)
-//            print(particles) // TODO delete this print
-
             val printer = ParticlePrinter(borders)
 
             // STEP 2: For all particles,
@@ -41,10 +38,7 @@ class Main {
             pq.addAll(newEvents)
 
             // Main loop
-//            var currentIteration = 0
             while (time < maxTime) {
-//                if (currentIteration % 10000 == 0) println("Iteration N°" + currentIteration * 10000 + "Tc: " + time)
-//                currentIteration++
                 //  Pop event
                 if (pq.isEmpty()) break
                 val currentEvent = pq.poll()
@@ -52,7 +46,7 @@ class Main {
                 if (currentEvent.results.find { it.collisionNumber != it.particle.collisionCount + 1 } == null) {
 
                     // STEP 3: For all particle recalculate position
-                    if (time > currentEvent.tc) { // TODO maybe add an epsilon here?
+                    if (time > currentEvent.tc) {
                         throw IllegalStateException("New time can't be smaller than before")
                     }
                     val oldEventTime = time
@@ -69,7 +63,7 @@ class Main {
                     }
 
                     StatsPrinter.saveCollisionTime(deltaTimeCollision)
-                    StatsPrinter.saveVelocities(particles, deltaTimeCollision)
+                    StatsPrinter.saveVelocities(particles)
 
 
                     // STEP 4: For particles affected by event recalculate velocity and collision number
@@ -85,11 +79,9 @@ class Main {
                             borders = borders,
                             time = time)
                     pq.addAll(newEvents)
-
-                    // TODO save current state for drawing latter
-//                    print(particles)
                 }
             }
+            StatsPrinter.printStats(time, "testing1")
         }
     }
 }

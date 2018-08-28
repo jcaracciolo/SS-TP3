@@ -29,18 +29,36 @@ class ParticleGenerator(
                 smallParticleRadius)
     }
 
+    private fun generateSmallTrackableParticle(name: String): Particle {
+        val speed = rand.nextDouble() * maxVelocity;
+        val angle = 2 * Math.PI * rand.nextDouble();
+
+        return TrackableParticle(idCount++,
+                Vector(rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
+                        rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
+                Vector(speed * Math.cos(angle), speed * Math.sin(angle)),
+                smallParticleMass,
+                smallParticleRadius, name)
+    }
+
     private fun generateBigParticle(): Particle {
-        return Particle(idCount++,
+        return TrackableParticle(idCount++,
                 Vector(worldWidth / 2, worldHeight / 2),
                 Vector(0.0, 0.0),
                 bigParticleMass,
-                bigParticleRadius)
+                bigParticleRadius, "BigParticle")
     }
 
     fun generateParticles(smallParticlesNum: Int): ArrayList<Particle> {
         val particles = ArrayList<Particle>()
         particles.add(generateBigParticle())
-        while (particles.size < smallParticlesNum + 1) {
+        while (particles.size < 2){
+            val particle = generateSmallTrackableParticle("SmallParticle")
+            if (particles.find { overlaps(particle, it) } == null) {
+                particles.add(particle)
+            }
+        }
+        while (particles.size < smallParticlesNum + 2) {
             val particle = generateSmallParticle()
             if (particles.find { overlaps(particle, it) } == null) {
                 particles.add(particle)
