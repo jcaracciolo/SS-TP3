@@ -55,10 +55,11 @@ class Main {
                     if (time > currentEvent.tc) { // TODO maybe add an epsilon here?
                         throw IllegalStateException("New time can't be smaller than before")
                     }
-
+                    val oldEventTime = time
                     val oldTime = printer.printIfNecessary(particles, currentEvent.tc)
                     time = currentEvent.tc
                     val deltaTime = time - oldTime
+                    val deltaTimeCollision = time - oldEventTime
 
                     particles.forEach {
                         it.calculateNewPosition(deltaTime)
@@ -66,6 +67,10 @@ class Main {
                             throw IllegalStateException("Particles can't be outside of bounds")
                         }
                     }
+
+                    StatsPrinter.saveCollisionTime(deltaTimeCollision)
+                    StatsPrinter.saveVelocities(particles, deltaTimeCollision)
+
 
                     // STEP 4: For particles affected by event recalculate velocity and collision number
                     currentEvent.results.forEach { it.particle.collisionResult(it.newVelocity) }

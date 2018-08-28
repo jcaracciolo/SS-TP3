@@ -10,5 +10,9 @@ data class Particle(val id: Int, var position: Vector, var velocity: Vector, val
         collisionCount++
     }
 
+    fun getSpeed(): Double {
+        return Vector.norm(velocity)
+    }
+
 
 }
