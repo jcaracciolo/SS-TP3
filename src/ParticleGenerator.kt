@@ -18,10 +18,13 @@ class ParticleGenerator(
     val rand = Random(seed)
 
     private fun generateSmallParticle(): Particle {
+        val speed = rand.nextDouble() * maxVelocity;
+        val angle = 2 * Math.PI * rand.nextDouble();
+
         return Particle(idCount++,
                 Vector(rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
                         rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
-                Vector(rand.nextDouble() * maxVelocity, rand.nextDouble() * maxVelocity),
+                Vector(speed * Math.cos(angle), speed * Math.sin(angle)),
                 smallParticleMass,
                 smallParticleRadius)
     }
