@@ -12,7 +12,7 @@ class Main {
             val worldHeight = 0.5
             var time = 0.0 // TODO should time start in 0 or something else?
             val pq = PriorityQueue<Event>()
-            val maxIterations = 100000
+            val maxTime = 50
             val EPSILON = 0.000001
 
             val borders = Borders(worldWidth, worldHeight)
@@ -41,9 +41,10 @@ class Main {
             pq.addAll(newEvents)
 
             // Main loop
-            for (i in 1..maxIterations) {
-                if (i % 10 == 0) println("Iteration N°" + i)
-
+//            var currentIteration = 0
+            while (time < maxTime) {
+//                if (currentIteration % 10000 == 0) println("Iteration N°" + currentIteration * 10000 + "Tc: " + time)
+//                currentIteration++
                 //  Pop event
                 if (pq.isEmpty()) break
                 val currentEvent = pq.poll()
