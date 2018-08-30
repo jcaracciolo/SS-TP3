@@ -27,6 +27,17 @@ object StatsPrinter {
         trackedParticles.add(trackableParticle)
     }
 
+    /**
+     * Prints stats files.
+     * deltaTime file is a single line of space separated valued (ssv) with the delta tiem between two collisions
+     * For each tracked particle there is a ${ParticleName}-DCM file with squared distance to the initial position in each frame of the animation.
+     * velocitiesThird is a file that contains the velocities of each particle during the simulation:
+     *      -The first line contains N, the number of periods between collisions considered
+     *      (A period is not counted if it started before the start of the last third of the simulation)
+     *      -Next you have 2*N lines. Each pair of lines is composed by:
+     *          -A line containing deltaT, the delta time for that period
+     *          -A line with the velocities of all the particles in that period
+     */
     fun printStats(totalTime: Double, filename: String) {
         File("stats").mkdirs()
         File("stats/" + filename).mkdirs()
@@ -46,22 +57,18 @@ object StatsPrinter {
 
                 var iterations = 0
                 var timeAccum = 0.0
-                collisionTimes.forEach{
-                    if(timeAccum + it <= totalTime * 2 / 3){
-                        timeAccum += it
-                    }
-                    iterations++
+                while(timeAccum <= totalTime * 2 / 3){
+                    timeAccum += collisionTimes[iterations++]
                 }
-                writer.write((velocities.size-(iterations-1)).toString() + "\n")
-                writer.write((timeAccum + collisionTimes[iterations-1] - totalTime * 2 / 3).toString() + "\n")
-                velocities[iterations-1].forEach(){
-                    writer.write(it.toString() + " ")
-                }
-                writer.write("\n")
-
+                writer.write((velocities.size-iterations).toString() + "\n")
+//                writer.write((timeAccum + collisionTimes[iterations-1] - totalTime * 2 / 3).toString() + "\n")
+//                velocities[iterations-1].forEach(){
+//                    writer.write(it.toString() + " ")
+//                }
+//                writer.write("\n")
                 for (i in iterations..(velocities.size-1)){
-                    writer.write(collisionTimes.toString())
-                    velocities[i].forEach(){
+                    writer.write(collisionTimes[i].toString()+"\n")
+                    velocities[i].forEach{
                         writer.write(it.toString() + " ")
                     }
                     writer.write("\n")
@@ -75,7 +82,8 @@ object StatsPrinter {
                         FileOutputStream(theFile), "utf-8")).use { writer ->
 
                     trackedParticle.positions.forEach(){ currentPosition ->
-                        writer.write((Vector.norm(currentPosition-trackedParticle.initialPosition)).toString()+" ")
+                        val norm = Vector.norm(currentPosition-trackedParticle.initialPosition)
+                        writer.write((norm*norm).toString()+" ")
                     }
                     writer.close()
                 }
