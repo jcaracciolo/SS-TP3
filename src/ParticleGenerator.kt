@@ -49,16 +49,16 @@ class ParticleGenerator(
                 bigParticleRadius, "BigParticle")
     }
 
-    fun generateParticles(smallParticlesNum: Int): ArrayList<Particle> {
+    fun generateParticles(trackedSmallParticlesNum: Int, nonTrackedSmallParticlesNum: Int): ArrayList<Particle> {
         val particles = ArrayList<Particle>()
         particles.add(generateBigParticle())
-        while (particles.size < 2){
-            val particle = generateSmallTrackableParticle("SmallParticle")
+        while (particles.size < trackedSmallParticlesNum + 1){
+            val particle = generateSmallTrackableParticle("SmallParticle-" + particles.size)
             if (particles.find { overlaps(particle, it) } == null) {
                 particles.add(particle)
             }
         }
-        while (particles.size < smallParticlesNum + 2) {
+        while (particles.size < nonTrackedSmallParticlesNum + trackedSmallParticlesNum + 1) {
             val particle = generateSmallParticle()
             if (particles.find { overlaps(particle, it) } == null) {
                 particles.add(particle)

@@ -24,7 +24,9 @@ class Main {
                     smallParticleMass = 0.1,
                     maxVelocity = 0.1,
                     EPSILON = EPSILON)
-            val particles = pg.generateParticles(200)
+            val particles = pg.generateParticles(
+                    trackedSmallParticlesNum = 1,
+                    nonTrackedSmallParticlesNum = 199)
             val printer = ParticlePrinter(borders)
 
             // STEP 2: For all particles,
