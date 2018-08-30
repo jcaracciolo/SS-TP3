@@ -14,6 +14,7 @@ class Main {
             val pq = PriorityQueue<Event>()
             val maxTime = 50
             val EPSILON = 0.000001
+            val statsFileName = "testing2"
             val borders = Borders(worldWidth, worldHeight)
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
@@ -83,7 +84,7 @@ class Main {
                     pq.addAll(newEvents)
                 }
             }
-            StatsPrinter.printStats(time, "testing1")
+            StatsPrinter.printStats(time, statsFileName)
         }
     }
 }
