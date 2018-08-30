@@ -46,7 +46,7 @@ object StatsPrinter {
             BufferedWriter(OutputStreamWriter(
                     FileOutputStream(theFile), "utf-8")).use { writer ->
                 collisionTimes.forEach {
-                    writer.write("${it}\n")
+                    writer.write("${it} ")
                 }
                 writer.close()
             }
