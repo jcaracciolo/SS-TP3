@@ -26,7 +26,7 @@ class ParticlePrinter(val borders: Borders) {
 
     private fun moveParticlesAndPrint(particles: Collection<Particle>) {
         particles.forEach {
-            it.calculateNewPosition(nextFrameTime - time)
+            it.calculateNewPosition(nextFrameTime - time, EventType.MOVEMENT)
         }
         time = nextFrameTime
         lastFrame++

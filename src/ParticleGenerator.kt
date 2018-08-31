@@ -10,7 +10,8 @@ class ParticleGenerator(
         val smallParticleMass: Double,
         val maxVelocity: Double,
         seed: Long = 0,
-        val EPSILON: Double) {
+        val EPSILON: Double,
+        val hardCodedSeparation: Double) {
 
 
     var idCount: Int = 0 // TODO check if random generation is not creating too many particles
@@ -38,7 +39,8 @@ class ParticleGenerator(
                         rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
                 Vector(speed * Math.cos(angle), speed * Math.sin(angle)),
                 smallParticleMass,
-                smallParticleRadius, name)
+                smallParticleRadius,
+                name)
     }
 
     private fun generateBigParticle(): Particle {
@@ -52,6 +54,11 @@ class ParticleGenerator(
     fun generateParticles(trackedSmallParticlesNum: Int, nonTrackedSmallParticlesNum: Int): ArrayList<Particle> {
         val particles = ArrayList<Particle>()
         particles.add(generateBigParticle())
+        val hardCodedParticle = generateSmallParticle()
+        hardCodedParticle.position = Vector(
+                x = worldWidth/2 + bigParticleRadius + smallParticleRadius + hardCodedSeparation,
+                y = worldHeight/2 + bigParticleRadius + smallParticleRadius + hardCodedSeparation)
+        particles.add(hardCodedParticle)
         while (particles.size < trackedSmallParticlesNum + 1){
             val particle = generateSmallTrackableParticle("SmallParticle-" + particles.size)
             if (particles.find { overlaps(particle, it) } == null) {

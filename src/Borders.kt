@@ -17,7 +17,7 @@ class Borders(val worldWidth: Double, val worldHeight: Double) {
 
         val result = CollisionResult(particle, newVelocity, particle.collisionCount + 1)
 
-        return Event(collisionTime, arrayOf(result))
+        return Event(collisionTime, arrayOf(result), EventType.WALL_COLLISION)
     }
 
     private fun horizontalCollisionTime(particle: Particle): Double? = collisionTime(worldWidth, particle.position.x, particle.radius, particle.velocity.x)

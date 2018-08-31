@@ -24,7 +24,8 @@ class Main {
                     smallParticleRadius = 0.005,
                     smallParticleMass = 0.1,
                     maxVelocity = 0.1,
-                    EPSILON = EPSILON)
+                    EPSILON = EPSILON,
+                    hardCodedSeparation = 0.05)
             val particles = pg.generateParticles(
                     trackedSmallParticlesNum = 1,
                     nonTrackedSmallParticlesNum = 199)
@@ -59,7 +60,7 @@ class Main {
                     val deltaTimeCollision = time - oldEventTime
 
                     particles.forEach {
-                        it.calculateNewPosition(deltaTime)
+                        it.calculateNewPosition(deltaTime, currentEvent.eventType)
                         if (it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON) {
                             throw IllegalStateException("Particles can't be outside of bounds")
                         }

@@ -37,7 +37,7 @@ object Collider {
         val secondCollisionResult = CollisionResult(second, secondNewVelocity, second.collisionCount + 1)
 
         // Return event
-        return Event(time + collisionTime, arrayOf(firstCollisionResult, secondCollisionResult))
+        return Event(time + collisionTime, arrayOf(firstCollisionResult, secondCollisionResult), EventType.PARTICLE_COLLISION)
     }
 
     private fun advancePosition(p: Particle, time: Double): Vector = Vector(p.position.x + p.velocity.x * time, p.position.y + p.velocity.y * time)
