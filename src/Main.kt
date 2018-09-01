@@ -10,13 +10,15 @@ class Main {
             StatsPrinter.changeDir("chelo")
             // STEP 1: Create borders and all particles
 
+            // Simulation parameters
             val worldWidth = 0.5
             val worldHeight = 0.5
-            var time = 0.0
             val pq = PriorityQueue<Event>()
             val maxTime = 10
             val EPSILON = 0.000001
             val borders = Borders(worldWidth, worldHeight)
+
+
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
                     worldHeight = worldHeight,
@@ -28,18 +30,20 @@ class Main {
                     EPSILON = EPSILON,
                     hardCodedSeparation = 0.05)
 
+            // Start simulation
             // Create Stats tracking
             val simStats = Stats();
 
-
             // Generate particles
-
             val particles = pg.generateParticles(
                     trackedSmallParticlesNum = 1,
                     nonTrackedSmallParticlesNum = 199,
                     stats = simStats)
 
             val printer = ParticlePrinter(borders)
+
+            // Time starts at zero
+            var time = 0.0
 
             // STEP 2: For all particles,
             // Calculate boards collision events
@@ -70,7 +74,7 @@ class Main {
                     val deltaTimeCollision = time - oldEventTime
 
                     particles.forEach {
-                        it.calculateNewPosition(deltaTime)
+                        it.calculateNewPosition(deltaTime, time)
                         if (it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON) {
                             throw IllegalStateException("Particles can't be outside of bounds")
                         }

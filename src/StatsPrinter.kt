@@ -23,9 +23,9 @@ object StatsPrinter {
                 BufferedWriter(OutputStreamWriter(
                         FileOutputStream(theFile), "utf-8")).use { writer ->
 
-                    trackedParticle.positions.forEach() { currentPosition ->
+                    trackedParticle.positions.forEach() { (timestamp, currentPosition) ->
                         val norm = Vector.norm(currentPosition - trackedParticle.initialPosition)
-                        writer.write((norm * norm).toString() + "\n")
+                        writer.write("$timestamp ${norm * norm}\n")
                     }
                     writer.close()
                 }
