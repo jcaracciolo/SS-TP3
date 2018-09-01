@@ -6,29 +6,39 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
 
+            // STEP 0: Set output folder
+            StatsPrinter.changeDir("chelo")
             // STEP 1: Create borders and all particles
 
             val worldWidth = 0.5
             val worldHeight = 0.5
             var time = 0.0
             val pq = PriorityQueue<Event>()
-            val maxTime = 50
+            val maxTime = 10
             val EPSILON = 0.000001
-            val statsFileName = "testing2"
             val borders = Borders(worldWidth, worldHeight)
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
                     worldHeight = worldHeight,
                     bigParticleRadius = 0.05,
-                    bigParticleMass = 100.0,
+                    bigParticleMass = 10.0,
                     smallParticleRadius = 0.005,
                     smallParticleMass = 0.1,
-                    maxVelocity = 0.1,
+                    maxVelocity = 0.2,
                     EPSILON = EPSILON,
                     hardCodedSeparation = 0.05)
+
+            // Create Stats tracking
+            val simStats = Stats();
+
+
+            // Generate particles
+
             val particles = pg.generateParticles(
                     trackedSmallParticlesNum = 1,
-                    nonTrackedSmallParticlesNum = 199)
+                    nonTrackedSmallParticlesNum = 199,
+                    stats = simStats)
+
             val printer = ParticlePrinter(borders)
 
             // STEP 2: For all particles,
@@ -60,18 +70,20 @@ class Main {
                     val deltaTimeCollision = time - oldEventTime
 
                     particles.forEach {
-                        it.calculateNewPosition(deltaTime, currentEvent.eventType)
+                        it.calculateNewPosition(deltaTime)
                         if (it.position.x < -EPSILON || it.position.x + EPSILON > worldWidth || it.position.y < -EPSILON || it.position.y > worldHeight + EPSILON) {
                             throw IllegalStateException("Particles can't be outside of bounds")
                         }
                     }
 
-                    StatsPrinter.saveCollisionTime(deltaTimeCollision)
-                    StatsPrinter.saveVelocities(particles)
+                    simStats.saveCollisionTime(deltaTimeCollision)
+                    simStats.saveVelocities(particles)
 
 
                     // STEP 4: For particles affected by event recalculate velocity and collision number
-                    currentEvent.results.forEach { it.particle.collisionResult(it.newVelocity) }
+                    currentEvent.results.forEach {
+                        it.particle.collisionResult(it.newVelocity, currentEvent.eventType)
+                    }
 
                     // STEP 2: Repeat step 2 for particles affected by event,
                     // TODO change all this to not have to create a new arrayList each time but trying to keep it DRY. Or not, maximum arraySize is 2 in our scenario
@@ -85,7 +97,10 @@ class Main {
                     pq.addAll(newEvents)
                 }
             }
-            StatsPrinter.printStats(time, statsFileName)
+
+            StatsPrinter.printDCM(simStats)
+            StatsPrinter.printCollisionTimes(simStats)
+            StatsPrinter.printVelocitiesSegment(simStats, time * (2/3))
         }
     }
 }

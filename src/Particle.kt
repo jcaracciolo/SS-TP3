@@ -1,11 +1,11 @@
 open class Particle(val id: Int, var position: Vector, var velocity: Vector, val mass: Double, val radius: Double) {
     var collisionCount: Int = 0
 
-    open fun calculateNewPosition(deltaTime: Double, eventType: EventType) {
+    open fun calculateNewPosition(deltaTime: Double) {
         position += velocity.scaledBy(deltaTime)
     }
 
-    fun collisionResult(newVelocity: Vector) {
+    open fun collisionResult(newVelocity: Vector, eventType: EventType) {
         velocity = newVelocity
         collisionCount++
     }
@@ -25,23 +25,18 @@ class TrackableParticle(id: Int, position: Vector, velocity: Vector, mass: Doubl
 
     init {
         positions.add(initialPosition)
-        StatsPrinter.addTrackedParticle(this)
     }
 
-    override fun calculateNewPosition(deltaTime: Double, eventType: EventType) {
-        super.calculateNewPosition(deltaTime, eventType)
-        when(eventType){
-            EventType.MOVEMENT -> if(!hasHitWall) positions.add(position.copy())
-            EventType.WALL_COLLISION -> hasHitWall = true
+    override fun calculateNewPosition(deltaTime: Double) {
+        super.calculateNewPosition(deltaTime)
+        if(!hasHitWall){
+            positions.add(position.copy())
         }
-
     }
 
-
-
-
-
-
-
+    override fun collisionResult(newVelocity: Vector, eventType: EventType) {
+        super.collisionResult(newVelocity, eventType)
+        hasHitWall = eventType == EventType.WALL_COLLISION;
+    }
 
 }

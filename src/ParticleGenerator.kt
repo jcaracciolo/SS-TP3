@@ -30,7 +30,7 @@ class ParticleGenerator(
                 smallParticleRadius)
     }
 
-    private fun generateSmallTrackableParticle(name: String): Particle {
+    private fun generateSmallTrackableParticle(name: String): TrackableParticle {
         val speed = rand.nextDouble() * maxVelocity;
         val angle = 2 * Math.PI * rand.nextDouble();
 
@@ -43,7 +43,7 @@ class ParticleGenerator(
                 name)
     }
 
-    private fun generateBigParticle(): Particle {
+    private fun generateBigParticle(): TrackableParticle {
         return TrackableParticle(idCount++,
                 Vector(worldWidth / 2, worldHeight / 2),
                 Vector(0.0, 0.0),
@@ -51,18 +51,26 @@ class ParticleGenerator(
                 bigParticleRadius, "BigParticle")
     }
 
-    fun generateParticles(trackedSmallParticlesNum: Int, nonTrackedSmallParticlesNum: Int): ArrayList<Particle> {
+    fun generateParticles(trackedSmallParticlesNum: Int, nonTrackedSmallParticlesNum: Int, stats: Stats): ArrayList<Particle> {
         val particles = ArrayList<Particle>()
-        particles.add(generateBigParticle())
-        val hardCodedParticle = generateSmallParticle()
+
+        val bigParticle = generateBigParticle();
+        stats.addTrackedParticle(bigParticle);
+        particles.add(bigParticle)
+
+        val hardCodedParticle = generateSmallTrackableParticle("SmallParticle_0")
+        stats.addTrackedParticle(hardCodedParticle);
+
         hardCodedParticle.position = Vector(
                 x = worldWidth/2 + bigParticleRadius + smallParticleRadius + hardCodedSeparation,
                 y = worldHeight/2 + bigParticleRadius + smallParticleRadius + hardCodedSeparation)
         particles.add(hardCodedParticle)
+
         while (particles.size < trackedSmallParticlesNum + 1){
             val particle = generateSmallTrackableParticle("SmallParticle-" + particles.size)
             if (particles.find { overlaps(particle, it) } == null) {
                 particles.add(particle)
+                stats.addTrackedParticle(particle)
             }
         }
         while (particles.size < nonTrackedSmallParticlesNum + trackedSmallParticlesNum + 1) {
