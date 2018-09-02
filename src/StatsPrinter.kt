@@ -15,17 +15,20 @@ object StatsPrinter {
     /**
      * For each tracked particle there is a ${ParticleName}-DCM file with squared distance to the initial position in each frame of the animation.
      */
-    fun printDCM(stats: Stats) {
-        try {
-                stats.trackedParticles.forEach { trackedParticle ->
+    fun printDCM(stats: List<Stats>) {
 
-                val theFile = File("$dir/${trackedParticle.name}-DCM.dat")
+        try {
+                val dcmAggregatedStats = DcmStats.fromStats(stats)
+
+
+                dcmAggregatedStats.forEach { dcmStat ->
+
+                val theFile = File("$dir/${dcmStat.trackedParticle.name}-DCM.dat")
                 BufferedWriter(OutputStreamWriter(
                         FileOutputStream(theFile), "utf-8")).use { writer ->
 
-                    trackedParticle.positions.forEach() { (timestamp, currentPosition) ->
-                        val norm = Vector.norm(currentPosition - trackedParticle.initialPosition)
-                        writer.write("$timestamp ${norm * norm}\n")
+                    dcmStat.dcmList.forEach() { data ->
+                        writer.write("${data.first} ${data.second} ${data.third}\n")
                     }
                     writer.close()
                 }
@@ -71,16 +74,16 @@ object StatsPrinter {
                 while (timeAccum <= cutTime) {
                     timeAccum += stats.collisionTimes[iterations++]
                 }
-                writer.write((stats.velocities.size - iterations).toString() + "\n")
+                writer.write("${stats.velocities.size - iterations}\n")
                 //                writer.write((timeAccum + collisionTimes[iterations-1] - totalTime * 2 / 3).toString() + "\n")
                 //                velocities[iterations-1].forEach(){
                 //                    writer.write(it.toString() + " ")
                 //                }
                 //                writer.write("\n")
-                for (i in iterations..(stats.velocities.size - 1)) {
-                    writer.write(stats.collisionTimes[i].toString() + "\n")
+                for (i in iterations until stats.velocities.size) {
+                    writer.write("${stats.collisionTimes[i]}\n")
                     stats.velocities[i].forEach {
-                        writer.write(it.toString() + " ")
+                        writer.write("$it ")
                     }
                     writer.write("\n")
                 }

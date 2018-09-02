@@ -3,7 +3,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
-class ParticlePrinter(val borders: Borders) {
+class ParticlePrinter(val borders: Borders, val supressOutput: Boolean = false) {
 
     var time = 0.0
     var fps = 1/15.0
@@ -31,7 +31,11 @@ class ParticlePrinter(val borders: Borders) {
         time = nextFrameTime
         lastFrame++
         nextFrameTime+=fps
-        printOvito(particles)
+        println(nextFrameTime)
+
+        if(!supressOutput) {
+            printOvito(particles)
+        }
     }
 
     private fun printOvito(particles: Collection<Particle>) {
