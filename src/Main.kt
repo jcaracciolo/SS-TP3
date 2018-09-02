@@ -14,8 +14,8 @@ class Main {
             val worldWidth = 0.5
             val worldHeight = 0.5
             val pq = PriorityQueue<Event>()
-            val maxTime = 4.0
-            val EPSILON = 0.000001
+            val maxTime = 60.0
+            val EPSILON = 0.00001
             val borders = Borders(worldWidth, worldHeight)
 
 
@@ -31,7 +31,7 @@ class Main {
                     hardCodedSeparation = 0.05)
 
 
-            val SIMULATIONS = 10
+            val SIMULATIONS = 20
             val statsList = mutableListOf<Stats>()
 
             // Start simulation

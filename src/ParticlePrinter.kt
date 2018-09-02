@@ -31,7 +31,6 @@ class ParticlePrinter(val borders: Borders, val supressOutput: Boolean = false) 
         time = nextFrameTime
         lastFrame++
         nextFrameTime+=fps
-        println(nextFrameTime)
 
         if(!supressOutput) {
             printOvito(particles)

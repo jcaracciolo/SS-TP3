@@ -34,7 +34,6 @@ class TrackableParticle(id: Int, position: Vector, velocity: Vector, mass: Doubl
     override fun calculateNewPosition(deltaTime: Double, timestamp: Double, track: Boolean) {
         super.calculateNewPosition(deltaTime, timestamp, track)
         if(track && !hasHitWall){
-            println("ts $timestamp")
             positions.add(timestamp to position.copy())
         }
     }
