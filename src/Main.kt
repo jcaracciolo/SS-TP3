@@ -13,7 +13,6 @@ class Main {
             // Simulation parameters
             val worldWidth = 0.5
             val worldHeight = 0.5
-            val pq = PriorityQueue<Event>()
             val maxTime = 60.0
             val EPSILON = 0.00001
             val borders = Borders(worldWidth, worldHeight)
@@ -50,6 +49,7 @@ class Main {
 
                 // Time starts at zero
                 var time = 0.0
+                val pq = PriorityQueue<Event>()
 
                 // STEP 2: For all particles,
                 // Calculate boards collision events
