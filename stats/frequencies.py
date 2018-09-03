@@ -33,7 +33,6 @@ plt.rcParams["patch.force_edgecolor"] = True
 #weights = np.ones_like(freqs) / (len(freqs))
 #ax.hist(freqs, bins = 20, weights = weights)
 
-print(freqs)
 ax = sns.distplot(freqs, bins = 25)
 
 #plt.savefig('graph.png', format='png', bbox_inches = 'tight', dpi = 100)

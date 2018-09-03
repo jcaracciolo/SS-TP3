@@ -21,9 +21,9 @@ class Main {
             val bigParticleMass = 100.0
             val smallParticleRadius = 0.005
             val smallParticleMass = 0.1
-            val maxVelocity = 0.3
+            val maxVelocity = 0.2
 
-            val particleCount = 200
+            val particleCount = 400
 
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
@@ -42,7 +42,7 @@ class Main {
             val statsList = mutableListOf<Stats>()
 
 
-            val simName = "mass_up2_seed0"
+            val simName = "400_base_sim"
             StatsPrinter.changeDir(simName)
             StatsPrinter.printParameters(seed, maxTime, worldWidth, worldHeight, particleCount, bigParticleRadius, bigParticleMass, smallParticleRadius, smallParticleMass, maxVelocity, SIMULATIONS,
                     "")
