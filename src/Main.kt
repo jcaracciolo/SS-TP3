@@ -6,11 +6,10 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
 
-            // STEP 0: Set output folder
-            StatsPrinter.changeDir("data")
             // STEP 1: Create borders and all particles
 
             // Simulation parameters
+            val seed = 0L
             val worldWidth = 0.5
             val worldHeight = 0.5
             val maxTime = 200.0
@@ -18,38 +17,56 @@ class Main {
             val borders = Borders(worldWidth, worldHeight)
 
 
+            val bigParticleRadius = 0.05
+            val bigParticleMass = 100.0
+            val smallParticleRadius = 0.005
+            val smallParticleMass = 0.1
+            val maxVelocity = 0.3
+
+            val particleCount = 200
+
             val pg = ParticleGenerator(
                     worldWidth = worldWidth,
                     worldHeight = worldHeight,
-                    bigParticleRadius = 0.05,
-                    bigParticleMass = 100.0,
-                    smallParticleRadius = 0.005,
-                    smallParticleMass = 0.1,
-                    maxVelocity = 0.1,
+                    bigParticleRadius = bigParticleRadius,
+                    bigParticleMass = bigParticleMass,
+                    smallParticleRadius = smallParticleRadius,
+                    smallParticleMass = smallParticleMass,
+                    maxVelocity = maxVelocity,
                     EPSILON = EPSILON,
-                    hardCodedSeparation = 0.05)
+                    hardCodedSeparation = 0.05,
+                    seed = seed)
 
 
             val SIMULATIONS = 1
             val statsList = mutableListOf<Stats>()
 
+
+            val simName = "mass_up2_seed0"
+            StatsPrinter.changeDir(simName)
+            StatsPrinter.printParameters(seed, maxTime, worldWidth, worldHeight, particleCount, bigParticleRadius, bigParticleMass, smallParticleRadius, smallParticleMass, maxVelocity, SIMULATIONS,
+                    "")
+
+
             // Start simulation
             // Create Stats tracking
+
             for(i in 1..SIMULATIONS) {
                 val simStats = Stats();
-                statsList.add(simStats);
 
                 // Generate particles
                 val particles = pg.generateParticles(
-                        trackedSmallParticlesNum = 1,
-                        nonTrackedSmallParticlesNum = 199,
-                        stats = simStats)
+                            trackedSmallParticlesNum = 1,
+                            nonTrackedSmallParticlesNum = particleCount - 1,
+                            stats = simStats)
+
+                statsList.add(simStats);
 
                 if(i == 1) {
                     StatsPrinter.printFirstVelocities(particles)
                 }
 
-                val printer = ParticlePrinter(borders, i != 1)
+                val printer = ParticlePrinter(borders, simName, i != 1)
 
                 // Time starts at zero
                 var time = 0.0
@@ -91,7 +108,7 @@ class Main {
                         }
 
                         simStats.saveCollisionTime(deltaTimeCollision)
-                        simStats.saveVelocities(particles)
+                        simStats.saveVelocities(particles, SIMULATIONS == 1)
 
 
                         // STEP 4: For particles affected by event recalculate velocity and collision number
@@ -110,13 +127,16 @@ class Main {
                                 time = time)
                         pq.addAll(newEvents)
                     }
+
                 }
             }
 
-            StatsPrinter.printDCM(statsList)
-            StatsPrinter.printCollisionTimes(statsList[0])
-            StatsPrinter.printTrajectory(statsList[0])
-            StatsPrinter.printVelocitiesSegment(statsList[0], maxTime * (2.0/3.0))
+            if(SIMULATIONS > 1)
+                  StatsPrinter.printDCM(statsList)
+
+             StatsPrinter.printCollisionTimes(statsList[0])
+             StatsPrinter.printTrajectory(statsList[0])
+             StatsPrinter.printVelocitiesSegment(statsList[0], maxTime * (2/3))
         }
     }
 }

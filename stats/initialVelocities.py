@@ -22,7 +22,7 @@ plt.rcParams["patch.force_edgecolor"] = True
 #ax.hist(freqs, bins = 20, weights = weights)
 
 #print(samples)
-ax = sns.distplot(samples, bins = 100, kde=False, norm_hist=True)
+ax = sns.distplot(samples, bins = 100, kde=False, norm_hist=False)
 
 #plt.savefig('graph.png', format='png', bbox_inches = 'tight', dpi = 100)
 

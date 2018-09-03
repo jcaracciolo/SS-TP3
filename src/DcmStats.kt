@@ -22,16 +22,18 @@ class DcmStats(val trackedParticle: TrackableParticle, val dcmList: MutableList<
                         if (!timeMap!!.contains(time)) {
                             timeMap[time] = mutableListOf()
                         }
-                        timeMap[time]!!.add(Vector.norm(Vector.delta(particle.initialPosition, position)))
+                        val delta = Vector.delta(particle.initialPosition.scaledBy(100.0), position.scaledBy(100.0))
+                        val msd = Vector.dot(delta,delta)
+                        timeMap[time]!!.add(msd)
                     }
                 }
             }
 
             val aggregatedDcmList = mutableListOf<DcmStats>()
 
-            statsMap.forEach { (particle, dcmList) ->
+            statsMap.forEach { (particle, dcmLists) ->
                 val dcmStat = DcmStats(particle)
-                dcmList.forEach { (time, dcmList) ->
+                dcmLists.forEach { (time, dcmList) ->
                     val mean = calculateMean(dcmList)
                     val std = calculateStd(dcmList, mean)
                     dcmStat.dcmList.add(Triple(time, mean, std))
@@ -54,7 +56,7 @@ class DcmStats(val trackedParticle: TrackableParticle, val dcmList: MutableList<
         }
 
         private fun calculateStd(dcmList: MutableList<Double>, mean: Double): Double {
-            if (dcmList.size == 0)
+            if (dcmList.size <= 1)
                 return 0.0
 
             var stdAcum = 0.0

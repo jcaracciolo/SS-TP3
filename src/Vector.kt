@@ -11,7 +11,8 @@ data class Vector(val x: Double, val y: Double) {
         }
 
         fun delta(v1: Vector, v2: Vector): Vector {
-            return v2 - v1
+            val d = v2 - v1
+            return d
         }
     }
 

@@ -86,5 +86,33 @@ class ParticleGenerator(
         return Vector.norm(deltaR) - (particle1.radius + particle2.radius) <= EPSILON
     }
 
+    fun generateParticles(initialVelocities: ArrayList<Double>, stats: Stats): ArrayList<Particle> {
+        val particles = ArrayList<Particle>()
+
+        val bigParticle = generateBigParticle();
+        stats.addTrackedParticle(bigParticle);
+        particles.add(bigParticle)
+
+        var i = 0
+        while (particles.size < initialVelocities.size){
+
+            val angle = 2 * Math.PI * rand.nextDouble();
+
+            val p =  Particle(idCount++,
+                    Vector(rand.nextDouble() * (worldWidth - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON,
+                            rand.nextDouble() * (worldHeight - 2 * smallParticleRadius - 2 * EPSILON) + smallParticleRadius + EPSILON),
+                    Vector(initialVelocities[i] * Math.cos(angle), initialVelocities[i] * Math.sin(angle)),
+                    smallParticleMass,
+                    smallParticleRadius)
+
+            if (particles.find { overlaps(p, it) } == null) {
+                particles.add(p)
+                i++
+            }
+        }
+
+        return particles
+    }
+
 
 }

@@ -3,7 +3,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
-class ParticlePrinter(val borders: Borders, val supressOutput: Boolean = false) {
+class ParticlePrinter(val borders: Borders, val directory: String, val supressOutput: Boolean = false) {
 
     var time = 0.0
     var fps = 1/15.0
@@ -42,9 +42,9 @@ class ParticlePrinter(val borders: Borders, val supressOutput: Boolean = false) 
         val extraLines = 4
 
         println("Printing Frame $lastFrame at time $time")
-        File("ovito").mkdirs()
+        File("stats/$directory/ovito").mkdirs()
         try {
-            val theFile = File("ovito/particles" + lastFrame)
+            val theFile = File("stats/$directory/ovito/particles" + lastFrame)
             BufferedWriter(OutputStreamWriter(
                     FileOutputStream(theFile), "utf-8")).use { writer ->
 

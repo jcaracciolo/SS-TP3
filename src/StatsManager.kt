@@ -15,12 +15,14 @@ class Stats {
 
     }
 
-    fun saveVelocities(particles: ArrayList<Particle>) {
-        val speeds = ArrayList<Double>()
-        particles.forEach{
-            speeds.add(it.getSpeed())
+    fun saveVelocities(particles: ArrayList<Particle>, save: Boolean = true) {
+        if(save) {
+            val speeds = ArrayList<Double>()
+            particles.forEach {
+                speeds.add(it.getSpeed())
+            }
+            velocities.add(speeds)
         }
-        velocities.add(speeds)
     }
 
     fun addTrackedParticle(trackableParticle: TrackableParticle) {

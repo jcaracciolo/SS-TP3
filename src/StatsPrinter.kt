@@ -12,6 +12,41 @@ object StatsPrinter {
     }
     var dir = "";
 
+
+    fun printParameters(seed: Long, maxTime: Double, worldWidth : Double,
+                        worldHeight : Double,
+                        particleCount: Int,
+                        bigParticleRadius : Double,
+                        bigParticleMass : Double,
+                        smallParticleRadius : Double,
+                        smallParticleMass : Double,
+                        maxVelocity : Double,
+                        simulations: Int,
+                        comments: String) {
+        try {
+            val theFile = File("$dir/simulation_data.txt")
+            BufferedWriter(OutputStreamWriter(
+                    FileOutputStream(theFile), "utf-8")).use { writer ->
+                writer.write("seed : $seed \n");
+                writer.write("maxTime : $maxTime \n");
+                writer.write("worldWidth : $worldWidth \n");
+                writer.write("worldHeight : $worldHeight \n");
+                writer.write("particleCount: $particleCount\n");
+                writer.write("bigParticleRadius: $bigParticleRadius\n");
+                writer.write("bigParticleMass : $bigParticleMass \n");
+                writer.write("smallParticleRadius: $smallParticleRadius\n");
+                writer.write("smallParticleMass : $smallParticleMass \n");
+                writer.write("maxVelocity : $maxVelocity \n");
+                writer.write("simulations: $simulations\n");
+                writer.write("comments: $comments\n");
+                writer.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
     fun printFirstVelocities(particles: Collection<Particle>) {
         try {
                 val theFile = File("$dir/initialVelocities.dat")

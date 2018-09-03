@@ -21,7 +21,8 @@ for i in range(0, len(velocities), 2):
 
 #plt.style.use('ggplot')
 plt.rcParams["patch.force_edgecolor"] = True
-
+plt.xlim((0,1))
+plt.ylim(0,18)
 #fig, ax  = plt.subplots()
 #weights = np.ones_like(freqs) / (len(freqs))
 #ax.hist(freqs, bins = 20, weights = weights)

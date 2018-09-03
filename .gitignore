@@ -1,6 +1,7 @@
 .idea/
 out/
-ovito/
+*ovito/
+*/ovito/
 
 # Compiled class file
 *.class
