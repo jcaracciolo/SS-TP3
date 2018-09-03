@@ -12,6 +12,22 @@ object StatsPrinter {
     }
     var dir = "";
 
+    fun printFirstVelocities(particles: Collection<Particle>) {
+        try {
+                val theFile = File("$dir/initialVelocities.dat")
+                BufferedWriter(OutputStreamWriter(
+                        FileOutputStream(theFile), "utf-8")).use { writer ->
+                    particles.forEach { particle ->
+                        writer.write("${Vector.norm(particle.velocity)} ")
+                    }
+                    writer.close()
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            //TODO do something with error
+        }
+    }
+
     /**
      * For each tracked particle there is a ${ParticleName}-DCM file with squared distance to the initial position in each frame of the animation.
      */
@@ -42,6 +58,29 @@ object StatsPrinter {
     }
 
 
+    fun printTrajectory(stats: Stats) {
+
+        try {
+            stats.trackedParticles.forEach  { particle ->
+
+                val theFile = File("$dir/${particle.name}-trajectory.dat")
+                BufferedWriter(OutputStreamWriter(
+                        FileOutputStream(theFile), "utf-8")).use { writer ->
+
+                    particle.positions.forEach() { (_, position) ->
+                        writer.write("${position.x} ${position.y}\n")
+                    }
+                    writer.close()
+                }
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            //TODO do something with error
+        }
+    }
+
     /* deltaTimes.out file is a single line of space separated valued (ssv) with the delta time between two collisions */
     fun printCollisionTimes(stats: Stats) {
         try {
@@ -49,7 +88,7 @@ object StatsPrinter {
             BufferedWriter(OutputStreamWriter(
                     FileOutputStream(theFile), "utf-8")).use { writer ->
                 stats.collisionTimes.forEach {
-                    writer.write("${it} ")
+                    writer.write("${it}\n")
                 }
                 writer.close()
             }

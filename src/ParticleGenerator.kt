@@ -15,7 +15,6 @@ class ParticleGenerator(
 
 
     var idCount: Int = 0 // TODO check if random generation is not creating too many particles
-
     val rand = Random(seed)
 
     private fun generateSmallParticle(): Particle {

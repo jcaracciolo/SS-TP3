@@ -22,7 +22,7 @@ class DcmStats(val trackedParticle: TrackableParticle, val dcmList: MutableList<
                         if (!timeMap!!.contains(time)) {
                             timeMap[time] = mutableListOf()
                         }
-                        timeMap[time]!!.add(Vector.norm(position))
+                        timeMap[time]!!.add(Vector.norm(Vector.delta(particle.initialPosition, position)))
                     }
                 }
             }

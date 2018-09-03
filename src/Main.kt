@@ -7,13 +7,13 @@ class Main {
         fun main(args: Array<String>) {
 
             // STEP 0: Set output folder
-            StatsPrinter.changeDir("chelo")
+            StatsPrinter.changeDir("data")
             // STEP 1: Create borders and all particles
 
             // Simulation parameters
             val worldWidth = 0.5
             val worldHeight = 0.5
-            val maxTime = 60.0
+            val maxTime = 200.0
             val EPSILON = 0.00001
             val borders = Borders(worldWidth, worldHeight)
 
@@ -22,15 +22,15 @@ class Main {
                     worldWidth = worldWidth,
                     worldHeight = worldHeight,
                     bigParticleRadius = 0.05,
-                    bigParticleMass = 10.0,
+                    bigParticleMass = 100.0,
                     smallParticleRadius = 0.005,
                     smallParticleMass = 0.1,
-                    maxVelocity = 0.2,
+                    maxVelocity = 0.1,
                     EPSILON = EPSILON,
                     hardCodedSeparation = 0.05)
 
 
-            val SIMULATIONS = 20
+            val SIMULATIONS = 1
             val statsList = mutableListOf<Stats>()
 
             // Start simulation
@@ -45,7 +45,11 @@ class Main {
                         nonTrackedSmallParticlesNum = 199,
                         stats = simStats)
 
-                val printer = ParticlePrinter(borders, true)
+                if(i == 1) {
+                    StatsPrinter.printFirstVelocities(particles)
+                }
+
+                val printer = ParticlePrinter(borders, i != 1)
 
                 // Time starts at zero
                 var time = 0.0
@@ -92,7 +96,7 @@ class Main {
 
                         // STEP 4: For particles affected by event recalculate velocity and collision number
                         currentEvent.results.forEach {
-                            it.particle.collisionResult(it.newVelocity, currentEvent.eventType)
+                            it.particle.collisionResult(it.newVelocity, currentEvent.eventType, currentEvent.tc)
                         }
 
                         // STEP 2: Repeat step 2 for particles affected by event,
@@ -111,6 +115,7 @@ class Main {
 
             StatsPrinter.printDCM(statsList)
             StatsPrinter.printCollisionTimes(statsList[0])
+            StatsPrinter.printTrajectory(statsList[0])
             StatsPrinter.printVelocitiesSegment(statsList[0], maxTime * (2.0/3.0))
         }
     }

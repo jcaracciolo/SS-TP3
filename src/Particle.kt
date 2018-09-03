@@ -7,7 +7,7 @@ open class Particle(val id: Int, var position: Vector, var velocity: Vector, val
         position += velocity.scaledBy(deltaTime)
     }
 
-    open fun collisionResult(newVelocity: Vector, eventType: EventType) {
+    open fun collisionResult(newVelocity: Vector, eventType: EventType, timestamp: Double) {
         velocity = newVelocity
         collisionCount++
     }
@@ -38,9 +38,10 @@ class TrackableParticle(id: Int, position: Vector, velocity: Vector, mass: Doubl
         }
     }
 
-    override fun collisionResult(newVelocity: Vector, eventType: EventType) {
-        super.collisionResult(newVelocity, eventType)
+    override fun collisionResult(newVelocity: Vector, eventType: EventType, timestamp: Double) {
+        super.collisionResult(newVelocity, eventType, timestamp)
         if(!hasHitWall && eventType == EventType.WALL_COLLISION){
+            println("$name has hit wall at $timestamp")
             hasHitWall = true
         }
     }
