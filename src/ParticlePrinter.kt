@@ -3,12 +3,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
-class ParticlePrinter(val borders: Borders, val directory: String, val supressOutput: Boolean = false) {
+class ParticlePrinter(val borders: Borders, val directory: String, val supressOutput: Boolean = false, val maxVelocity: Double) {
 
     var time = 0.0
     var fps = 1/15.0
     var lastFrame = 0
     var nextFrameTime = 0.0
+
+    fun Double.clamp(min: Double, max: Double): Double = Math.max(min, Math.min(this, max))
 
     fun printIfNecessary(particles: Collection<Particle>, nextEventTime: Double): Double {
         if(lastFrame == 0) {
@@ -51,8 +53,17 @@ class ParticlePrinter(val borders: Borders, val directory: String, val supressOu
                 writer.write("${particles.size + extraLines}\n")
                 writer.write("\n")
                 particles.forEach {
+                    val color = Vector.norm(it.velocity)/maxVelocity
                     writer.write(
-                            "${it.id}\t${it.position.x}\t${it.position.y}\t0\t${it.radius}\n"
+                            "${it.id}" +
+                                    "\t${it.position.x}" +
+                                    "\t${it.position.y}" +
+                                    "\t0" +
+                                    "\t${it.radius}" +
+                                    "\t${(2 * color).clamp(0.0, 1.0)}" +
+                                    "\t${(2 * (1 - color)).clamp(0.0, 1.0)}" +
+                                    "\t0" +
+                                    "\n"
                     )
                 }
 

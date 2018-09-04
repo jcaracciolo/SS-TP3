@@ -42,7 +42,7 @@ class Main {
             val statsList = mutableListOf<Stats>()
 
 
-            val simName = "400_base_sim"
+            val simName = "400_base_sim_color"
             StatsPrinter.changeDir(simName)
             StatsPrinter.printParameters(seed, maxTime, worldWidth, worldHeight, particleCount, bigParticleRadius, bigParticleMass, smallParticleRadius, smallParticleMass, maxVelocity, SIMULATIONS,
                     "")
@@ -66,7 +66,7 @@ class Main {
                     StatsPrinter.printFirstVelocities(particles)
                 }
 
-                val printer = ParticlePrinter(borders, simName, i != 1)
+                val printer = ParticlePrinter(borders, simName, i != 1, maxVelocity)
 
                 // Time starts at zero
                 var time = 0.0
@@ -84,6 +84,8 @@ class Main {
 
                 // Main loop
                 while (time < maxTime) {
+
+
                     //  Pop event
                     if (pq.isEmpty()) break
                     val currentEvent = pq.poll()
@@ -108,7 +110,7 @@ class Main {
                         }
 
                         simStats.saveCollisionTime(deltaTimeCollision)
-                        simStats.saveVelocities(particles, SIMULATIONS == 1)
+                        simStats.saveVelocities(particles, false)
 
 
                         // STEP 4: For particles affected by event recalculate velocity and collision number
