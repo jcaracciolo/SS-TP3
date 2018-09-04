@@ -53,7 +53,7 @@ class ParticlePrinter(val borders: Borders, val directory: String, val supressOu
                 writer.write("${particles.size + extraLines}\n")
                 writer.write("\n")
                 particles.forEach {
-                    val color = Vector.norm(it.velocity)/maxVelocity
+                    val color = Vector.norm(it.velocity)/(2*maxVelocity)
                     writer.write(
                             "${it.id}" +
                                     "\t${it.position.x}" +
@@ -69,10 +69,10 @@ class ParticlePrinter(val borders: Borders, val directory: String, val supressOu
 
 
                 val particleBorderSize = 0.00000001
-                writer.write("${100000}\t${0}\t${0}\t0\t$particleBorderSize\n")
-                writer.write("${100001}\t${0}\t${borders.worldHeight}\t0\t$particleBorderSize\n")
-                writer.write("${100002}\t${borders.worldWidth}\t${0}\t0\t$particleBorderSize\n")
-                writer.write("${100003}\t${borders.worldWidth}\t${borders.worldHeight}\t0\t$particleBorderSize\n")
+                writer.write("${100000}\t${0}\t${0}\t0\t$particleBorderSize\t0\t0\t0\n")
+                writer.write("${100001}\t${0}\t${borders.worldHeight}\t0\t$particleBorderSize\t0\t0\t0\n")
+                writer.write("${100002}\t${borders.worldWidth}\t${0}\t0\t$particleBorderSize\t0\t0\t0\n")
+                writer.write("${100003}\t${borders.worldWidth}\t${borders.worldHeight}\t0\t$particleBorderSize\t0\t0\t0\n")
                 writer.close()
             }
         } catch (e: Exception) {
