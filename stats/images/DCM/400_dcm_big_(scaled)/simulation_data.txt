@@ -1,0 +1,12 @@
+seed : 0 
+maxTime : 100.0 
+worldWidth : 0.87 
+worldHeight : 0.87 
+particleCount: 1200
+bigParticleRadius: 0.05
+bigParticleMass : 100.0 
+smallParticleRadius: 0.005
+smallParticleMass : 0.1 
+maxVelocity : 0.1 
+simulations: 20
+comments: 
